@@ -4,7 +4,7 @@ Created on Tue Nov 10 13:36:52 2020
 
 @author: michaelvolk
 """
-Sj
+
 def sequence_details(gene = 'YEL063C'):
     
     import requests
