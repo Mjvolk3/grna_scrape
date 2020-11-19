@@ -4,20 +4,27 @@ Created on Tue Nov 17 01:29:04 2020
 
 @author: michaelvolk
 """
-def atum_grna(sequence_details = (5, 31694, 33466), port = 51060):
+def atum_grna(sequence_details = (5, 31694, 33466),
+              chrome_driver_path = "C:\Program Files (x86)\chromedriver.exe",
+              download_base_path = "C:\\Users\\michaelvolk\\downloads\\",
+              port = 51060):
     
     from selenium import webdriver
     import time
     from selenium.webdriver.support.ui import WebDriverWait
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support import expected_conditions as EC
+    import os
+    from Bio import SeqIO
+    from selenium.webdriver.chrome.options import Options
     
     chromosome_num = str(sequence_details[0])
     start_bp = sequence_details[1]
     end_bp = sequence_details[2]
-    
-    PATH = "C:\Program Files (x86)\chromedriver.exe"
-    driver = webdriver.Chrome(PATH, port = port)
+    options = Options()
+    options.headless = False #For making browser headless https://github.com/TheBrainFamily/chimpy/issues/108
+    driver = webdriver.Chrome(chrome_driver_path, options = options, port = port)
+   
     driver.get("https://atum.bio/eCommerce/cas9/input")
     
     #Select Genome
@@ -54,7 +61,17 @@ def atum_grna(sequence_details = (5, 31694, 33466), port = 51060):
     #download gRNA fasta
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[1]/div/div/fieldset/legend/a'))).click()
     
-    time.sleep(1)
+    # time.sleep(1) #if no download, increase sleep time
     driver.quit() 
     
-
+    #get guides from fasta, and remove fasta
+    file_name = "gRNA.fasta"
+    file_path = download_base_path + file_name 
+    
+    guides = []
+    with open(file_path, "r") as handle:
+        for record in SeqIO.parse(handle, "fasta"):
+            guides.append(str(record.seq))
+    
+    os.remove(file_path)
+    return(guides)
