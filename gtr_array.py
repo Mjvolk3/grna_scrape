@@ -13,6 +13,7 @@ def gtr_array(gene_names = ('a', 'b', 'c'),
         
     import pandas as pd
     import Bio
+    import datetime
     from Bio.Seq import Seq
     
     gene_disruptions = len(gene_names)
@@ -42,17 +43,17 @@ def gtr_array(gene_names = ('a', 'b', 'c'),
             df.loc[gene_i * 2 + 1, 'Purification'] = 'STD'
         if gene_i == gene_disruptions-1:
             if optional_oligos == True:
-                df.loc[gene_i * 2,'Name'] = gene_names[gene_i] + '_sgtF_URA3F'
+                df.loc[gene_i * 2,'Name'] = gene_names[gene_i] + '_sgtF_URA3'
                 df.loc[gene_i * 2, 'Sequence'] = 'AAAGGTCTCAATGCGTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGC'
                 df.loc[gene_i * 2, 'Scale'] = '25nm'
                 df.loc[gene_i * 2, 'Purification'] = 'STD'
-                df.loc[gene_i * 2 + 1,'Name'] = gene_names[gene_i] + '_sgtR_URA3R'
+                df.loc[gene_i * 2 + 1,'Name'] = gene_names[gene_i] + '_sgtR_URA3'
                 df.loc[gene_i * 2 + 1, 'Sequence'] = 'AAAGGTCTCAAAACCTAGACACAGGGTAATAACTGATATAATTAAATTGAAGCTC'
                 df.loc[gene_i * 2 + 1, 'Scale'] = '25nm'
                 df.loc[gene_i * 2 + 1, 'Purification'] = 'STD'
     
     if write_file == True:
-        file_path = './' + file_name_name + '_oligos.xlsx'
+        file_path = './' + file_name + '_oligos_' + str(datetime.datetime.now()).split(' ')[0] + '.xlsx'
         df.to_excel(file_path, index = False) 
-    
-    return(df)
+        
+    return df

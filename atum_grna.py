@@ -61,7 +61,7 @@ def atum_grna(sequence_details = (5, 31694, 33466),
     #download gRNA fasta
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[1]/div/div/fieldset/legend/a'))).click()
     
-    # time.sleep(1) #if no download, increase sleep time
+    time.sleep(1) #if no download, increase sleep time
     driver.quit() 
     
     #get guides from fasta, and remove fasta
