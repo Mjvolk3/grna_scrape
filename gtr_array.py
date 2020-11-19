@@ -26,31 +26,24 @@ def gtr_array(gene_names = ('a', 'b', 'c'),
         if gene_i == 0:
             df.loc[gene_i,'Name'] = gene_names[gene_i] +'_sgtF_s52'
             df.loc[gene_i, 'Sequence'] = 'AAAGGTCTCAGATC' + gRNAs[gene_i] + 'GTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGG'
-            df.loc[gene_i, 'Scale'] = '25nm'
-            df.loc[gene_i, 'Purification'] = 'STD'
             df.loc[gene_i * 2 + 1,'Name'] = gene_names[gene_i] + '_sgtR_s52'
             df.loc[gene_i * 2 + 1, 'Sequence'] = 'AAAGGTCTCA' + str(Seq(gRNAs[gene_i + 1][:4]).reverse_complement()) + 'TGCGCAAGCCCGGAATCGAAC'
-            df.loc[gene_i * 2 + 1, 'Scale'] = '25nm'
-            df.loc[gene_i * 2 + 1, 'Purification'] = 'STD'
         if (gene_i != gene_disruptions-1) & (gene_i != 0):
             df.loc[gene_i * 2, 'Name'] = gene_names[gene_i] + '_sgtF'
             df.loc[gene_i * 2, 'Sequence'] = 'AAAGGTCTCA' + gRNAs[gene_i] + 'GTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGC'
-            df.loc[gene_i * 2, 'Scale'] = '25nm'
-            df.loc[gene_i * 2, 'Purification'] = 'STD'
             df.loc[gene_i * 2 + 1, 'Name'] = gene_names[gene_i] + '_sgtR'
             df.loc[gene_i * 2 + 1, 'Sequence'] =  'AAAGGTCTCA' + gRNAs[gene_i + 1] + 'TGCGCAAGCCCGGAATCGAACCGG'
-            df.loc[gene_i * 2 + 1, 'Scale'] = '25nm'
-            df.loc[gene_i * 2 + 1, 'Purification'] = 'STD'
         if gene_i == gene_disruptions-1:
             if optional_oligos == True:
                 df.loc[gene_i * 2,'Name'] = gene_names[gene_i] + '_sgtF_URA3'
                 df.loc[gene_i * 2, 'Sequence'] = 'AAAGGTCTCAATGCGTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGC'
-                df.loc[gene_i * 2, 'Scale'] = '25nm'
-                df.loc[gene_i * 2, 'Purification'] = 'STD'
                 df.loc[gene_i * 2 + 1,'Name'] = gene_names[gene_i] + '_sgtR_URA3'
                 df.loc[gene_i * 2 + 1, 'Sequence'] = 'AAAGGTCTCAAAACCTAGACACAGGGTAATAACTGATATAATTAAATTGAAGCTC'
-                df.loc[gene_i * 2 + 1, 'Scale'] = '25nm'
-                df.loc[gene_i * 2 + 1, 'Purification'] = 'STD'
+                
+    #set scale according to sequence length
+    df = df.assign(Scale = ['25nm' if len(Sequence) <= 60 else '100nm' for Sequence in df['Sequence']])
+    #set purification
+    df = df.assign(Purification = "STD")
     
     if write_file == True:
         file_path = './' + file_name + '_oligos_' + str(datetime.datetime.now()).split(' ')[0] + '.xlsx'

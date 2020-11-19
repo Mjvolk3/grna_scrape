@@ -13,15 +13,15 @@ def run_tests():
     #ade2 is YOR128C
     #lyp1 is YNL268W
     
-    order_name = 'A3_plasmid'
+    #order_name = 'A3_plasmid'
     gene_names = ('YEL063C', 'YOR128C', 'YNL268W')
     gRNAs = ('GCTTACATGGAGACATCTAC', 'GATATCAAGAGGATTGGAAA', 'GCATGCTCTGTTCGCCAATG')
-    optional_sequences = True
-    gene_disruptions = len(gene_names)
+    #optional_sequences = True
+    #gene_disruptions = len(gene_names)
     
     df = gtr_array(gene_names = gene_names, gRNAs = gRNAs)
     df_test = pd.read_excel('A3_test_oligos.xlsx')
     
-    assert df.equals(df_test), 'A3 plasmid oligos are incorrect'
+    assert df.equals(df_test), ('A3 plasmid oligos are incorrect. Table equailty is printed to help debug', df == df_test)
     
     print('All tests passed!')
