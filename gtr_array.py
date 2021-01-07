@@ -20,9 +20,11 @@ def gtr_array(gene_names = ('a', 'b', 'c'),
     
     #generate IDT table
     df = pd.read_excel('template-paste-entry.xlsx')
+    guides = []
     
     #fill table with proper oligos for scaffold PCR
     for gene_i in range(gene_disruptions):
+        guides.append(gene_names[gene_i])
         if gene_i == 0:
             df.loc[gene_i,'Name'] = gene_names[gene_i] +'_sgtF_s52'
             df.loc[gene_i, 'Sequence'] = 'AAAGGTCTCAGATC' + gRNAs[gene_i] + 'GTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGG'
@@ -36,7 +38,8 @@ def gtr_array(gene_names = ('a', 'b', 'c'),
         if gene_i == gene_disruptions-1:
             if optional_oligos == True:
                 df.loc[gene_i * 2,'Name'] = gene_names[gene_i] + '_sgtF_URA3'
-                df.loc[gene_i * 2, 'Sequence'] = 'AAAGGTCTCAATGCGTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGC'
+                #line with error - did not previously incorporate g3
+                df.loc[gene_i * 2, 'Sequence'] = 'AAAGGTCTCA' + str(Seq(gRNAs[gene_i]).reverse_complement())[-4:] + 'GTTTTAGAGCTAGAAATAGCAAGTTAAAATAAGGC'
                 df.loc[gene_i * 2 + 1,'Name'] = gene_names[gene_i] + '_sgtR_URA3'
                 df.loc[gene_i * 2 + 1, 'Sequence'] = 'AAAGGTCTCAAAACCTAGACACAGGGTAATAACTGATATAATTAAATTGAAGCTC'
                 

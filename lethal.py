@@ -104,6 +104,7 @@ def synthetic_lethal(gene_1 = 'csl4', gene_2 = 'cbf1'):
         return '-'
     
 def lethality(ranked_list_file_name = 'top_ranked_2020-11-11.txt',
+              colnames = ['index', 'gene_1', 'gene_2', 'gene_3', 'score'], 
               start = 0,
               end = 2,
               write_file = False,
@@ -123,7 +124,7 @@ def lethality(ranked_list_file_name = 'top_ranked_2020-11-11.txt',
         file name where df_lethal is written to. The default is 'new'.
 
     Returns
-    -------
+    ------- 
     df_lethal : TYPE
         Dataframe that provides null mutant viablity and synthetic lethal viability.
     '''
@@ -131,7 +132,7 @@ def lethality(ranked_list_file_name = 'top_ranked_2020-11-11.txt',
     df = pd.read_csv(ranked_list_file_name, 
                 sep = '\t', 
                 nrows = end, 
-                header = None, 
+                header = None,  
                 names = ['index', 'gene_1', 'gene_2', 'gene_3', 'score'])
     df = df[start:end]
     #check for null mutants

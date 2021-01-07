@@ -5,6 +5,7 @@ Created on Tue Nov 17 01:29:04 2020
 @author: michaelvolk
 """
 def atum_grna(sequence_details = (5, 31694, 33466),
+              num = 10,
               chrome_driver_path = "C:\Program Files (x86)\chromedriver.exe",
               download_base_path = "C:\\Users\\michaelvolk\\downloads\\",
               port = 51060):
@@ -55,13 +56,19 @@ def atum_grna(sequence_details = (5, 31694, 33466),
     #search for guides
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[1]/div/div[2]/form/div/div[1]/div[5]/div[2]/div[2]/div[4]/button'))).click()
     
+    #select drop down to show more guides
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[(@id = "btnShowMore")]'))).click()
+    
+    for n in range(4,num):
+        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[contains(concat( " ", @class, " " ), concat( " ", "moreResults", " " )) and (((count(preceding-sibling::*) + 1) = ' + str(n) + ') and parent::*)]//*[contains(concat( " ", @class, " " ), concat( " ", "form-check-input", " " ))]'))).click()
+    
     #Continue
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[1]/div[3]/div/form/div[3]/div[2]/button'))).click()
     
     #download gRNA fasta
     WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div[2]/div/div/div[1]/div/div/fieldset/legend/a'))).click()
     
-    time.sleep(1) #if no download, increase sleep time
+    time.sleep(5) #if no download, increase sleep time
     driver.quit() 
     
     #get guides from fasta, and remove fasta
