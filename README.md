@@ -11,6 +11,8 @@
 - [x] function for generating lethality table with ranked mutants
 - [x] function ordering top x triple oligos for triple knockouts
 - [x] order oligos for top 10 mutants
+- [ ] select gg sticky ends based on data from single pot gg efficiency
+- [ ] order oligos with improved sticky ends 
 - [ ] function for full ORF deletion homology repair oligos
 - [ ] Create oligos for double mutants from Onge et al.
 - [ ] create historic refernce table in bulk order to check if oligos have already been ordered
